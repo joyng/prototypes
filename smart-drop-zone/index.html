@@ -7,599 +7,544 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* SGDS tokens (light theme), taken from the SGDS AI component library. Layout: wiki shell, demo card + agency panel side by side. */
+/* Two visual layers. Citizen view: SGDS tokens only. Demo layer: dark charcoal panels, mono labels, dashed violet annotations. */
 :root{
   color-scheme: light;
-  --sgds-font-family-brand:"Inter",system-ui,sans-serif;
+  --font:"Inter",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,monospace;
-  --sgds-color-default:#242128;
-  --sgds-color-subtle:#625e68;
-  --sgds-body-color-default:#1a1a1a;
-  --sgds-body-color-subtle:#525252;
-  --sgds-bg-default:#ffffff;
-  --sgds-bg-alternate:#f6f3fa;
-  --sgds-surface-raised:#f7f7f7;
-  --sgds-border-color-muted:#dfdfdf;
-  --sgds-border-color-default:#868686;
-  --sgds-border-color-emphasis:#3b3b3b;
-  --sgds-primary-color-default:#6b4feb;
-  --sgds-primary-color-emphasis:#523abc;
-  --sgds-primary-surface-muted:#f4f2fe;
-  --sgds-primary-border-color-muted:#e1dbfb;
-  --sgds-danger-color-default:#cf2323;
-  --sgds-danger-surface-muted:#fcf1f1;
-  --sgds-danger-border-color-muted:#f8d7d7;
-  --sgds-warning-color-default:#7e6917;
-  --sgds-warning-surface-muted:#fef4cb;
-  --sgds-warning-border-color-muted:#fcde63;
-  --sgds-success-color-default:#0e7c3d;
-  --sgds-success-surface-muted:#e3f9ed;
-  --sgds-success-border-color-muted:#b1edcb;
-  --sgds-accent-color-default:#0269d0;
-  --sgds-accent-surface-muted:#ecf5fe;
-  --sgds-accent-border-color-muted:#c8e2fb;
-  --sgds-outline-focus:2px solid #6b4feb;
-  --r-sm:4px;--r-md:8px;--r-lg:12px;--r-xl:16px;--r-full:999px;
-  --elev-2:0 0 2px 0 rgba(14,14,14,.16),0 2px 4px 0 rgba(14,14,14,.08);
+  /* SGDS (citizen view) */
+  --c-text:#242128;--c-subtle:#625e68;--c-body:#1a1a1a;--c-body-subtle:#525252;
+  --c-bg:#ffffff;--c-raised:#f7f7f7;--c-border:#dfdfdf;--c-border-default:#868686;--c-border-strong:#3b3b3b;
+  --c-primary:#6b4feb;--c-primary-dark:#523abc;--c-primary-muted:#f4f2fe;--c-primary-border:#e1dbfb;
+  --c-danger:#cf2323;--c-danger-muted:#fcf1f1;--c-danger-border:#f8d7d7;
+  --c-warn:#7e6917;--c-warn-muted:#fef4cb;--c-warn-border:#fcde63;
+  --c-success:#0e7c3d;--c-success-muted:#e3f9ed;--c-success-border:#b1edcb;
+  --c-accent:#0269d0;--c-accent-muted:#ecf5fe;
+  /* Demo layer */
+  --d-bg:#1f1d24;--d-panel:#2a2731;--d-line:#3d3946;--d-text:#ece9f3;--d-subtle:#a7a1b3;--d-accent:#b5a6ff;--d-note:#8a72ef;--d-note-bg:#f6f3ff;
+  --page:#eceaf0;
+  --r-sm:4px;--r-md:8px;--r-lg:12px;--r-full:999px;
+  --elev:0 0 2px 0 rgba(14,14,14,.16),0 4px 8px 0 rgba(14,14,14,.08);
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--sgds-bg-default);color:var(--sgds-color-default);font:400 16px/1.5 var(--sgds-font-family-brand);-webkit-font-smoothing:antialiased}
-:focus-visible{outline:var(--sgds-outline-focus);outline-offset:2px}
+body{background:var(--page);color:var(--c-text);font:400 16px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--c-primary);outline-offset:2px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+button{font-family:inherit}
 
-/* Header */
-.wiki-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px;border-bottom:1px solid var(--sgds-border-color-muted)}
-.wordmark{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--sgds-color-default);text-decoration:none}
-.brand-symbol{display:grid;place-items:center;width:28px;height:28px;border-radius:var(--r-md);background:var(--sgds-primary-color-default);color:#fff;font-size:15px;font-weight:700}
-.header-divider{width:1px;height:18px;background:var(--sgds-border-color-muted)}
-.header-label{font-weight:400;font-size:14px;color:var(--sgds-color-subtle)}
-.header-note{font-size:14px;color:var(--sgds-primary-color-emphasis)}
+/* ===== Demo layer ===== */
+.demo-top{background:var(--d-bg);color:var(--d-text);padding:14px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.demo-top .title{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.demo-top strong{font-size:16px;font-weight:600}
+.demo-top span{font:400 12px/18px var(--mono);color:var(--d-subtle)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font:400 12px/18px var(--mono);color:var(--d-subtle)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:6px}
+.legend .lg-citizen{background:#fff}
+.legend .lg-demo{background:var(--d-panel);border:1px solid var(--d-accent)}
+.legend .lg-note{background:var(--d-note-bg);border:1px dashed var(--d-note)}
 
-main{max-width:1180px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:32px}
-.wiki-intro{display:flex;flex-direction:column;gap:8px;max-width:760px}
-.eyebrow{font:500 12px/20px var(--mono);color:var(--sgds-primary-color-emphasis);letter-spacing:.02em}
-h1{margin:0;font-size:44px;line-height:1.15;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
-.wiki-intro p{margin:0;font-size:18px;color:var(--sgds-color-subtle)}
-h2{margin:0;font-size:20px;line-height:30px;font-weight:600}
-h3{margin:0;font-size:16px;font-weight:600}
-
-/* Controls */
-.global-controls{display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px 28px;padding:16px 0;border-block:1px solid var(--sgds-border-color-muted)}
-.control{display:flex;flex-direction:column;gap:4px;font-size:14px}
-.control label,.control .control-label{font-weight:500;color:var(--sgds-body-color-default)}
-.select{appearance:none;font:inherit;font-size:14px;color:var(--sgds-body-color-default);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23525252' d='M4.2 6.2a.7.7 0 0 1 1 0L8 9l2.8-2.8a.7.7 0 1 1 1 1L8.5 10.5a.7.7 0 0 1-1 0L4.2 7.2a.7.7 0 0 1 0-1z'/%3E%3C/svg%3E") no-repeat right 10px center;border:1px solid var(--sgds-border-color-default);border-radius:var(--r-md);padding:8px 36px 8px 12px;min-height:40px;min-width:280px}
-.check{display:inline-flex;align-items:center;gap:8px;font-size:14px;min-height:40px;cursor:pointer}
-.check input{width:18px;height:18px;accent-color:var(--sgds-primary-color-default);margin:0}
-.switch{display:inline-flex;align-items:center;gap:10px;min-height:40px;font-size:14px;cursor:pointer;background:none;border:0;padding:0;color:inherit;font-family:inherit}
-.switch-track{width:40px;height:24px;border-radius:var(--r-full);background:#a5a5a5;position:relative;transition:background .15s}
-.switch-track::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:var(--elev-2);transition:transform .15s}
-.switch[aria-checked="true"] .switch-track{background:var(--sgds-primary-color-default)}
+.shell{display:grid;grid-template-columns:320px minmax(0,1fr)}
+@media (max-width:980px){.shell{grid-template-columns:1fr}}
+.controls{background:var(--d-bg);color:var(--d-text);padding:20px;display:flex;flex-direction:column;gap:22px;border-top:1px solid var(--d-line)}
+.ctl-group{display:flex;flex-direction:column;gap:10px}
+.ctl-head{font:500 11px/16px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--d-accent);display:flex;gap:8px;flex-wrap:wrap}
+.ctl-head b{color:var(--d-subtle);font-weight:400}
+.ctl-label{font-size:13px;font-weight:500}
+.ctl-hint{font-size:12px;color:var(--d-subtle);margin:0}
+.d-select{appearance:none;width:100%;font:inherit;font-size:13px;color:var(--d-text);background:var(--d-panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath fill='%23a7a1b3' d='M4.2 6.2a.7.7 0 0 1 1 0L8 9l2.8-2.8a.7.7 0 1 1 1 1L8.5 10.5a.7.7 0 0 1-1 0L4.2 7.2a.7.7 0 0 1 0-1z'/%3E%3C/svg%3E") no-repeat right 10px center;border:1px solid var(--d-line);border-radius:var(--r-md);padding:8px 32px 8px 10px;min-height:38px}
+.d-kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:12px;margin:0;padding:10px;background:var(--d-panel);border-radius:var(--r-md)}
+.d-kv dt{color:var(--d-subtle)}.d-kv dd{margin:0;font-family:var(--mono);font-size:11.5px;overflow-wrap:anywhere}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:38px;background:var(--d-panel);border:1px solid var(--d-line);border-radius:var(--r-md);padding:6px 10px;color:var(--d-text);font-size:13px;cursor:pointer;text-align:left}
+.switch-track{flex:0 0 auto;width:36px;height:20px;border-radius:var(--r-full);background:#5a5566;position:relative}
+.switch-track::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s}
+.switch[aria-checked="true"] .switch-track{background:var(--c-primary)}
 .switch[aria-checked="true"] .switch-track::after{transform:translateX(16px)}
-.switch[aria-disabled="true"]{opacity:.55;cursor:not-allowed}
-.control-hint{font-size:12px;color:var(--sgds-color-subtle);max-width:320px}
+.switch[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+.seg{display:flex;background:var(--d-panel);border:1px solid var(--d-line);border-radius:var(--r-md);padding:3px;gap:3px}
+.seg button{flex:1;min-height:32px;border:0;border-radius:6px;background:transparent;color:var(--d-subtle);font-size:12.5px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--c-text);font-weight:500}
+.scenarios{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.scn{width:100%;text-align:left;background:var(--d-panel);border:1px solid var(--d-line);border-radius:var(--r-md);padding:9px 10px;color:var(--d-text);cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.scn:hover{border-color:var(--d-accent)}
+.scn strong{font-size:13px;font-weight:500}
+.scn span{font-size:12px;color:var(--d-subtle)}
+.d-check{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer}
+.d-check input{width:16px;height:16px;accent-color:var(--c-primary);margin:0}
+.d-btn{min-height:34px;border-radius:var(--r-md);border:1px solid var(--d-line);background:transparent;color:var(--d-text);font-size:13px;cursor:pointer;padding:0 12px}
+.d-btn:hover{border-color:var(--d-accent)}
 
-/* Buttons (sgds-button) */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:var(--r-md);font:500 14px/1 var(--sgds-font-family-brand);cursor:pointer;border:1px solid transparent;text-decoration:none;white-space:nowrap}
-.btn-primary{background:var(--sgds-primary-color-default);color:#fff}
-.btn-primary:hover{background:var(--sgds-primary-color-emphasis)}
-.btn-outline{background:transparent;border-color:var(--sgds-border-color-emphasis);color:var(--sgds-color-default)}
-.btn-outline:hover{background:var(--sgds-surface-raised)}
-.btn-ghost{background:transparent;color:var(--sgds-primary-color-emphasis);padding:0 10px}
-.btn-ghost:hover{background:var(--sgds-primary-surface-muted)}
+.stage{padding:28px 24px 48px;display:flex;flex-direction:column;gap:28px;min-width:0}
+.stage-label{font:500 11px/16px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#6a6475;display:flex;align-items:center;gap:8px;max-width:980px;width:100%;margin:0 auto}
+.stage-label::after{content:"";flex:1;height:1px;background:#d3cfda}
+
+/* Browser frame */
+.frame{margin:0 auto;width:100%;max-width:980px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(20,16,40,.12),0 12px 32px rgba(20,16,40,.10);overflow:hidden;transition:max-width .25s}
+.frame.mobile{max-width:390px;border-radius:28px;border:8px solid #1f1d24}
+.frame-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f1eff4;border-bottom:1px solid #e2dfe7}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:#d3cfda}
+.url{flex:1;font:400 12px/20px var(--mono);color:#625e68;background:#fff;border-radius:6px;padding:3px 10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.frame.mobile .dots{display:none}
+
+/* ===== Citizen view (SGDS) ===== */
+.masthead{background:#f0f0f0;font-size:12px;color:#474747;padding:6px 24px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.masthead .proto{font:500 10.5px/16px var(--mono);background:#fff3c4;color:#6b5600;border-radius:4px;padding:0 6px}
+.agency-bar{display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid var(--c-border)}
+.agency-logo{width:32px;height:32px;border-radius:8px;background:var(--c-primary);display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px}
+.agency-name{font-weight:600;font-size:15px;line-height:1.2}
+.agency-name small{display:block;font-weight:400;font-size:12px;color:var(--c-subtle)}
+.c-page{padding:28px 24px 32px;display:flex;flex-direction:column;gap:20px;max-width:720px}
+.frame.mobile .c-page{padding:20px 16px 24px}
+.stepper{font-size:13px;color:var(--c-subtle);display:flex;flex-direction:column;gap:8px}
+.step-track{display:flex;gap:4px}.step-track i{flex:1;height:4px;border-radius:2px;background:var(--c-border)}
+.step-track i.on{background:var(--c-primary)}
+.c-page h1{margin:0;font-size:28px;line-height:1.25;font-weight:600;text-wrap:balance}
+.frame.mobile .c-page h1{font-size:24px}
+.c-page .lede{margin:0;color:var(--c-body-subtle);font-size:15px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field-label{font-size:16px;font-weight:600;color:var(--c-body)}
+.field-hint{font-size:14px;color:var(--c-body-subtle);margin:0}
+.field-hint b{font-weight:500;color:var(--c-body)}
+.dropzone{display:flex;flex-direction:column;align-items:center;gap:8px;padding:24px 16px;border:1.5px dashed var(--c-border-default);border-radius:var(--r-lg);background:var(--c-raised);text-align:center}
+.dropzone.is-over{border-color:var(--c-primary);background:var(--c-primary-muted)}
+.dz-icon{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--c-primary);box-shadow:var(--elev)}
+.dz-title{margin:0;font-weight:600}
+.dz-sub{margin:0;font-size:14px;color:var(--c-body-subtle)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:var(--r-md);font:500 14px/1 var(--font);cursor:pointer;border:1px solid transparent;white-space:nowrap}
+.btn-primary{background:var(--c-primary);color:#fff}.btn-primary:hover{background:var(--c-primary-dark)}
+.btn-outline{background:#fff;border-color:var(--c-border-strong);color:var(--c-text)}.btn-outline:hover{background:var(--c-raised)}
+.btn-ghost{background:transparent;color:var(--c-primary-dark);padding:0 10px}.btn-ghost:hover{background:var(--c-primary-muted)}
 .btn-sm{min-height:32px;padding:0 12px;font-size:13px}
 .btn[disabled]{background:#dfdfdf;color:#868686;border-color:transparent;cursor:not-allowed}
-.icon-btn{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:var(--r-full);border:0;background:transparent;color:var(--sgds-body-color-subtle);cursor:pointer}
+.icon-btn{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;border:0;background:transparent;color:var(--c-body-subtle);cursor:pointer}
 .icon-btn:hover{background:rgba(14,14,14,.06)}
 
-/* Layout */
-.demo-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:24px;align-items:start}
-@media (max-width:960px){.demo-grid{grid-template-columns:1fr}}
-.card{background:#fff;border:1px solid var(--sgds-border-color-muted);border-radius:var(--r-md);padding:24px;display:flex;flex-direction:column;gap:20px;min-width:0}
-.section-heading{display:flex;flex-direction:column;gap:4px}
-.section-heading p{margin:0;font-size:14px;color:var(--sgds-color-subtle)}
-.samples{display:flex;flex-wrap:wrap;gap:8px}
-.samples-label{font-size:12px;font-family:var(--mono);color:var(--sgds-color-subtle);width:100%}
-.divider{height:1px;background:var(--sgds-border-color-muted);border:0;margin:0}
-
-/* Form field */
-.field{display:flex;flex-direction:column;gap:8px}
-.field-label{font-size:16px;font-weight:600;color:var(--sgds-body-color-default)}
-.field-hint{font-size:14px;color:var(--sgds-body-color-subtle);margin:0}
-.field-hint b{font-weight:500;color:var(--sgds-body-color-default)}
-
-/* Drop zone */
-.dropzone{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:28px 20px;border:1.5px dashed var(--sgds-border-color-default);border-radius:var(--r-lg);background:var(--sgds-surface-raised);text-align:center;transition:background .15s,border-color .15s}
-.dropzone.is-over{border-color:var(--sgds-primary-color-default);background:var(--sgds-primary-surface-muted)}
-.dropzone-icon{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--sgds-primary-color-default);box-shadow:var(--elev-2)}
-.dropzone-title{font-weight:600;font-size:16px;margin:0}
-.dropzone-sub{font-size:14px;color:var(--sgds-body-color-subtle);margin:0}
-.dropzone-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:4px}
-.fmt-chip{font:400 11px/18px var(--mono);letter-spacing:.02em;padding:1px 8px;border-radius:var(--r-full);background:#fff;border:1px solid var(--sgds-border-color-muted);color:var(--sgds-body-color-subtle)}
-.fmt-chip.out{border-color:var(--sgds-primary-border-color-muted);background:var(--sgds-primary-surface-muted);color:var(--sgds-primary-color-emphasis)}
-
-/* File list */
-.file-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.file-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
 .file-item{display:flex;flex-direction:column;gap:8px;min-width:0}
-
-/* Attachment pill (from SGDS AI Attachments) */
-.attachment{position:relative;isolation:isolate;overflow:hidden;box-sizing:border-box;display:inline-flex;width:fit-content;max-width:min(100%,520px);min-height:36px;align-items:center;gap:8px;padding:4px 6px 4px 10px;border:1px solid var(--sgds-border-color-muted);border-radius:var(--r-full);background:#fff;color:var(--sgds-color-default);font:400 14px/22px var(--sgds-font-family-brand)}
-.attachment::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--sgds-primary-surface-muted);transform:scaleX(0);transform-origin:left center}
+.attachment{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;width:fit-content;max-width:100%;min-height:36px;align-items:center;gap:8px;padding:4px 6px 4px 10px;border:1px solid var(--c-border);border-radius:var(--r-full);background:#fff;font-size:14px}
+.attachment::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--c-primary-muted);transform:scaleX(0);transform-origin:left}
 .attachment[data-state="processing"]::before{animation:fill 1.6s linear forwards}
-.attachment[data-state="ready"]::before{transform:scaleX(1);background:#fff}
-.attachment[data-state="error"]{background:var(--sgds-danger-surface-muted);border-color:var(--sgds-danger-border-color-muted)}
-.attachment[data-state="error"] .att-icon{color:var(--sgds-danger-color-default)}
-.attachment[data-state="review"],.attachment[data-state="warning"]{border-color:var(--sgds-warning-border-color-muted);background:var(--sgds-warning-surface-muted)}
-.attachment[data-state="review"] .att-icon,.attachment[data-state="warning"] .att-icon{color:var(--sgds-warning-color-default)}
-.att-icon{flex:0 0 auto;display:inline-grid;color:var(--sgds-body-color-subtle)}
-.attachment[data-state="ready"] .att-icon{color:var(--sgds-success-color-default)}
-.att-name{font:400 12px/22px var(--mono);min-width:48px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1 1 auto}
-.att-format{flex:0 0 auto;font:400 11px/18px var(--mono);letter-spacing:.02em;border-left:1px solid var(--sgds-border-color-muted);padding-left:8px;white-space:nowrap}
-.att-format .arrow{color:var(--sgds-primary-color-emphasis)}
-.spinner{width:16px;height:16px;border-radius:50%;border:2px solid var(--sgds-primary-border-color-muted);border-top-color:var(--sgds-primary-color-default);animation:spin .8s linear infinite}
-@keyframes fill{to{transform:scaleX(1)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.item-detail{margin-left:14px;padding-left:14px;border-left:2px solid var(--sgds-border-color-muted);display:flex;flex-direction:column;gap:8px;font-size:14px}
+.attachment[data-state="error"]{background:var(--c-danger-muted);border-color:var(--c-danger-border)}
+.attachment[data-state="error"] .att-icon{color:var(--c-danger)}
+.attachment[data-state="review"],.attachment[data-state="warning"]{background:var(--c-warn-muted);border-color:var(--c-warn-border)}
+.attachment[data-state="review"] .att-icon,.attachment[data-state="warning"] .att-icon{color:var(--c-warn)}
+.attachment[data-state="ready"] .att-icon{color:var(--c-success)}
+.att-icon{display:inline-grid;flex:0 0 auto;color:var(--c-body-subtle)}
+.att-name{font:400 12px/22px var(--mono);min-width:40px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.att-format{flex:0 0 auto;font:400 11px/18px var(--mono);border-left:1px solid var(--c-border);padding-left:8px;white-space:nowrap}
+.att-format .arrow{color:var(--c-primary-dark)}
+.spinner{width:16px;height:16px;border-radius:50%;border:2px solid var(--c-primary-border);border-top-color:var(--c-primary);animation:spin .8s linear infinite}
+@keyframes fill{to{transform:scaleX(1)}}@keyframes spin{to{transform:rotate(360deg)}}
+.item-detail{margin-left:14px;padding-left:14px;border-left:2px solid var(--c-border);display:flex;flex-direction:column;gap:8px;font-size:14px}
 .item-detail p{margin:0}
-.status-line{display:flex;align-items:center;gap:6px;color:var(--sgds-body-color-subtle);font-size:13px}
-.status-line .mono{font-family:var(--mono);font-size:12px}
-.change-tag{display:inline-flex;align-items:center;gap:6px;font:500 12px/20px var(--sgds-font-family-brand);padding:2px 8px;border-radius:var(--r-sm);width:fit-content}
-.change-tag.format{background:var(--sgds-accent-surface-muted);color:var(--sgds-accent-color-default)}
-.change-tag.content{background:var(--sgds-primary-surface-muted);color:var(--sgds-primary-color-emphasis)}
-.change-tag.none{background:var(--sgds-success-surface-muted);color:var(--sgds-success-color-default)}
-
-.notice{border-radius:var(--r-md);padding:14px 16px;display:flex;flex-direction:column;gap:10px;border:1px solid}
-.notice.review{background:#fffdf3;border-color:var(--sgds-warning-border-color-muted)}
-.notice.error{background:var(--sgds-danger-surface-muted);border-color:var(--sgds-danger-border-color-muted)}
-.notice.agent{background:var(--sgds-primary-surface-muted);border-color:var(--sgds-primary-border-color-muted)}
-.notice-title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--sgds-body-color-default)}
-.notice .actions{display:flex;flex-wrap:wrap;gap:8px}
-.agent-label{display:inline-flex;align-items:center;gap:4px;font:500 11px/18px var(--mono);color:var(--sgds-primary-color-emphasis);text-transform:uppercase;letter-spacing:.04em}
-
-/* Page previews */
+.status-line{color:var(--c-body-subtle);font-size:13px}
+.status-line .mono{font-family:var(--mono);font-size:12px;white-space:nowrap}
+.tag{display:inline-flex;font:500 12px/20px var(--font);padding:1px 8px;border-radius:var(--r-sm);width:fit-content}
+.tag.format{background:var(--c-accent-muted);color:var(--c-accent)}
+.tag.content{background:var(--c-primary-muted);color:var(--c-primary-dark)}
+.notice{border-radius:var(--r-md);padding:14px;display:flex;flex-direction:column;gap:10px;border:1px solid}
+.notice.review{background:#fffdf3;border-color:var(--c-warn-border)}
+.notice.error{background:var(--c-danger-muted);border-color:var(--c-danger-border)}
+.notice.assist{background:var(--c-primary-muted);border-color:var(--c-primary-border)}
+.notice-title{display:flex;align-items:flex-start;gap:8px;font-weight:600;font-size:14px;color:var(--c-body)}
+.notice-title svg{flex:0 0 auto;margin-top:2px}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.assist-label{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--c-primary-dark)}
 .pages{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
-.page{width:46px;height:62px;border:1px solid var(--sgds-border-color-muted);border-radius:var(--r-sm);background:#fff;padding:7px 6px;display:flex;flex-direction:column;gap:4px;position:relative}
-.page i{display:block;height:3px;border-radius:2px;background:#d6d3dc}
-.page i:nth-child(2){width:80%}.page i:nth-child(4){width:60%}
-.page .img{height:14px;background:#c8bdf7;border-radius:2px}
-.page span{position:absolute;bottom:-1px;right:3px;font:400 9px/14px var(--mono);color:var(--sgds-color-subtle)}
-.page.blank{border:1.5px dashed var(--sgds-danger-color-default);background:var(--sgds-danger-surface-muted)}
-.page.blank span{color:var(--sgds-danger-color-default);font-weight:500}
-.size-compare{display:flex;align-items:center;gap:8px;font:400 13px/20px var(--mono)}
-.size-compare .before{text-decoration:line-through;color:var(--sgds-color-subtle)}
-.size-compare .after{color:var(--sgds-success-color-default);font-weight:500}
-.size-compare .limit{color:var(--sgds-color-subtle)}
+.page{width:44px;height:58px;border:1px solid var(--c-border);border-radius:var(--r-sm);background:#fff;padding:6px;display:flex;flex-direction:column;gap:4px;position:relative}
+.page i{display:block;height:3px;border-radius:2px;background:#d6d3dc}.page i:nth-child(2){width:80%}
+.page .img{height:12px;background:#c8bdf7;border-radius:2px}
+.page span{position:absolute;bottom:0;right:3px;font:400 9px/14px var(--mono);color:var(--c-subtle)}
+.page.blank{border:1.5px dashed var(--c-danger);background:var(--c-danger-muted)}
+.page.blank span{color:var(--c-danger);font-weight:500}
+.size-compare{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:400 13px/20px var(--mono)}
+.size-compare .before{text-decoration:line-through;color:var(--c-subtle)}
+.size-compare .after{color:var(--c-success);font-weight:500}
+.size-compare .limit{color:var(--c-subtle)}
+.c-footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--c-border)}
+.c-footer p{margin:0;font-size:13px;color:var(--c-subtle)}
+.c-footer .btns{display:flex;gap:8px}
+.confirm{display:flex;flex-direction:column;gap:12px;padding:20px;border:1px solid var(--c-success-border);background:var(--c-success-muted);border-radius:var(--r-md)}
+.confirm h2{margin:0;font-size:20px}
+.confirm p{margin:0}
+.confirm ul{margin:0;padding-left:18px;font-size:14px}
 
-.form-footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
-.form-footer p{margin:0;font-size:13px;color:var(--sgds-color-subtle)}
-.banner{border-radius:var(--r-md);padding:12px 16px;background:var(--sgds-success-surface-muted);border:1px solid var(--sgds-success-border-color-muted);font-size:14px}
+/* Annotations (demo layer inside the citizen view) */
+.note{display:none;font:400 11.5px/17px var(--mono);color:#4a3aa6;background:var(--d-note-bg);border:1px dashed var(--d-note);border-radius:6px;padding:5px 8px;width:fit-content;max-width:100%;margin:0}
+.note::before{content:"DEMO NOTE · ";font-weight:500;color:var(--d-note)}
+body.annotate .note{display:block}
 
-/* Agency panel */
-.panel{background:var(--sgds-bg-alternate);border:1px solid var(--sgds-border-color-muted);border-radius:var(--r-md);padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
-.panel h3{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.panel .sub{font-size:13px;color:var(--sgds-color-subtle);margin:0}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px;margin:0}
-.kv dt{color:var(--sgds-color-subtle)}
-.kv dd{margin:0;font-weight:500;font-variant-numeric:tabular-nums}
-.badge{font:500 11px/18px var(--mono);padding:1px 8px;border-radius:var(--r-full);white-space:nowrap}
-.badge.ok{background:var(--sgds-success-surface-muted);color:var(--sgds-success-color-default)}
-.badge.off{background:#f3f3f3;color:#525252}
-.badge.warn{background:var(--sgds-warning-surface-muted);color:var(--sgds-warning-color-default)}
-.received{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.received li{background:#fff;border:1px solid var(--sgds-border-color-muted);border-radius:var(--r-md);padding:10px 12px;display:flex;flex-direction:column;gap:2px;font-size:13px}
-.received .r-name{font:400 12px/20px var(--mono);overflow-wrap:anywhere}
-.received .r-meta{color:var(--sgds-color-subtle);font-variant-numeric:tabular-nums}
-.empty{font-size:13px;color:var(--sgds-color-subtle);margin:0;padding:10px 12px;border:1px dashed var(--sgds-border-color-muted);border-radius:var(--r-md);background:#fff}
-pre.report{margin:0;background:#1f1d24;color:#e9e6f0;border-radius:var(--r-md);padding:14px;font:400 12px/1.6 var(--mono);overflow-x:auto}
-pre.report .k{color:#a999f3}pre.report .s{color:#9fe0b8}pre.report .n{color:#f3c97a}
-
-/* Behaviour tables */
-.rules{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-@media (max-width:860px){.rules{grid-template-columns:1fr}}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--sgds-border-color-muted);vertical-align:top}
-th{font-weight:600;font-size:13px;color:var(--sgds-body-color-subtle);background:var(--sgds-surface-raised)}
-.foot-note{font-size:13px;color:var(--sgds-color-subtle);margin:0}
+/* ===== Behind the scenes ===== */
+.bts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:980px;margin:0 auto;width:100%}
+@media (max-width:1180px){.bts{grid-template-columns:1fr 1fr}}
+@media (max-width:720px){.bts{grid-template-columns:1fr}}
+.bts-card{background:var(--d-bg);color:var(--d-text);border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.bts-card h3{margin:0;font-size:14px;font-weight:600}
+.bts-card p{margin:0;font-size:12px;color:var(--d-subtle)}
+.recv{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.recv li{background:var(--d-panel);border-radius:var(--r-md);padding:8px 10px;font-size:12px;display:flex;flex-direction:column;gap:2px}
+.recv .n{font-family:var(--mono);overflow-wrap:anywhere}
+.recv .m{color:var(--d-subtle)}
+.log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font:400 11.5px/17px var(--mono);max-height:260px;overflow:auto}
+.log li{display:grid;grid-template-columns:auto 1fr;gap:8px}
+.log .t{color:var(--d-subtle)}
+.log .ok{color:#9fe0b8}.log .warn{color:#f3c97a}.log .err{color:#f19b9b}.log .info{color:var(--d-text)}
+pre.report{margin:0;background:var(--d-panel);border-radius:var(--r-md);padding:10px;font:400 11.5px/1.6 var(--mono);color:var(--d-text);overflow-x:auto}
+pre.report .k{color:var(--d-accent)}pre.report .s{color:#9fe0b8}pre.report .n{color:#f3c97a}
+.recv .empty,.log .empty{display:block;color:var(--d-subtle);font-size:12px;padding:8px 10px;border:1px dashed var(--d-line);border-radius:var(--r-md);background:transparent}
 
 body.reduce-motion *,body.reduce-motion *::before{animation:none!important;transition:none!important}
 body.reduce-motion .attachment[data-state="processing"]::before{transform:scaleX(1)}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}.attachment[data-state="processing"]::before{transform:scaleX(1)}}
-@media (max-width:520px){h1{font-size:34px}.select{min-width:0;width:100%}.control{width:100%}.card{padding:18px}}
 </style>
 </head>
-<body>
-<header class="wiki-header">
-  <span class="wordmark"><span class="brand-symbol" aria-hidden="true">S</span>SGDS AI <span class="header-divider"></span><span class="header-label">Components</span></span>
-  <span class="header-note">Prototype · CDXO</span>
+<body class="annotate">
+
+<header class="demo-top">
+  <div class="title"><strong>Smart Drop Zone · interactive prototype</strong><span>CDXO · SGDS file upload · simulated, files stay in your browser</span></div>
+  <div class="legend" aria-label="Legend">
+    <span><i class="lg-citizen"></i>What citizens see</span>
+    <span><i class="lg-demo"></i>Demo only</span>
+    <span><i class="lg-note"></i>Demo note</span>
+  </div>
 </header>
 
-<main id="main">
-  <div class="wiki-intro">
-    <div class="eyebrow">11 / Input</div>
-    <h1>Smart Drop Zone</h1>
-    <p>A file upload that accepts what people’s phones and scanners produce, and hands the agency the format and size its system needs. Every change is shown; changes to content need approval.</p>
-  </div>
+<div class="shell">
+  <aside class="controls" aria-label="Demo controls (not part of the citizen interface)">
+    <div class="ctl-group">
+      <div class="ctl-head">Demo controls <b>· not shown to citizens</b></div>
+      <p class="ctl-hint">Change the agency’s setup or trigger a scenario. The browser frame on the right is what a citizen sees.</p>
+    </div>
 
-  <div class="global-controls">
-    <div class="control">
-      <label for="service">Service configuration</label>
-      <select id="service" class="select">
+    <div class="ctl-group">
+      <div class="ctl-head">1 · Agency setup</div>
+      <label class="ctl-label" for="service">Service</label>
+      <select id="service" class="d-select">
         <option value="statements">Financial assistance · bank statements</option>
-        <option value="damage">Feedback report · photo evidence</option>
+        <option value="damage">Facility feedback · photo evidence</option>
         <option value="medical">Medical claim · medical report</option>
       </select>
+      <dl class="d-kv" id="svc-kv"></dl>
     </div>
-    <div class="control">
-      <span class="control-label" id="agent-label">Agent layer (AgentBase)</span>
-      <button type="button" id="agent" class="switch" role="switch" aria-checked="true" aria-labelledby="agent-label"><span class="switch-track" aria-hidden="true"></span><span id="agent-state">On</span></button>
-      <span class="control-hint" id="agent-hint"></span>
-    </div>
-    <label class="check"><input type="checkbox" id="reduce-motion"> Reduce motion</label>
-  </div>
 
-  <div class="demo-grid">
-    <section class="card" aria-labelledby="try-heading">
-      <div class="section-heading">
-        <h2 id="try-heading">Try it</h2>
-        <p>Choose your own files or a sample. Processing is simulated; files stay in your browser.</p>
+    <div class="ctl-group">
+      <div class="ctl-head">2 · Agent layer</div>
+      <button type="button" id="agent" class="switch" role="switch" aria-checked="true"><span>Agent enabled for this widget</span><span class="switch-track" aria-hidden="true"></span></button>
+      <button type="button" id="outage" class="switch" role="switch" aria-checked="false"><span>Simulate middleware outage</span><span class="switch-track" aria-hidden="true"></span></button>
+      <p class="ctl-hint" id="agent-hint"></p>
+    </div>
+
+    <div class="ctl-group">
+      <div class="ctl-head">3 · Scenarios</div>
+      <p class="ctl-hint">Each adds a sample file to the citizen’s upload. You can also drop your own files into the frame.</p>
+      <ul class="scenarios" id="scenarios"></ul>
+    </div>
+
+    <div class="ctl-group">
+      <div class="ctl-head">4 · View</div>
+      <div class="seg" role="group" aria-label="Device">
+        <button type="button" data-device="desktop" aria-pressed="true">Desktop</button>
+        <button type="button" data-device="mobile" aria-pressed="false">Mobile</button>
       </div>
-      <div class="samples" id="samples" aria-label="Sample files"></div>
-      <hr class="divider">
-
-      <form class="field" id="upload-form" novalidate>
-        <span class="field-label" id="field-label"></span>
-        <p class="field-hint" id="field-hint"></p>
-        <div class="dropzone" id="dropzone">
-          <span class="dropzone-icon" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-          </span>
-          <p class="dropzone-title">Drag files here</p>
-          <p class="dropzone-sub">or</p>
-          <label class="btn btn-outline btn-sm" for="file-input">Choose files</label>
-          <input id="file-input" class="sr-only" type="file" multiple aria-describedby="field-hint">
-          <div class="dropzone-meta" id="formats" aria-label="Accepted formats"></div>
-        </div>
-        <ul class="file-list" id="file-list" aria-label="Uploaded files"></ul>
-        <hr class="divider">
-        <div class="form-footer">
-          <p id="footer-status">No files yet.</p>
-          <button type="submit" class="btn btn-primary" id="submit" disabled>Submit files</button>
-        </div>
-        <div id="submit-banner" class="banner" hidden></div>
-      </form>
-      <p id="live" class="sr-only" role="status" aria-live="polite"></p>
-    </section>
-
-    <aside class="panel" aria-labelledby="agency-heading">
-      <h3 id="agency-heading">What the agency receives</h3>
-      <p class="sub">Files go straight from the browser to the agency’s storage. Nothing passes through a central service.</p>
-      <dl class="kv" id="svc-kv"></dl>
-      <ul class="received" id="received"></ul>
-      <hr class="divider">
-      <h3>Configuration report <span class="badge ok">Sent on load</span></h3>
-      <p class="sub">The only data the component reports. It contains no user data, files or behaviour, and feeds DSS compliance monitoring.</p>
-      <pre class="report" id="report" tabindex="0" aria-label="Configuration report JSON"></pre>
-    </aside>
-  </div>
-
-  <section class="section-heading" aria-labelledby="rules-heading">
-    <h2 id="rules-heading">How it decides</h2>
-    <p>Conversion is deterministic and runs in the browser. The agent only advises, and only where the service’s data classification allows it.</p>
-  </section>
-  <div class="rules">
-    <div class="table-wrap">
-      <table>
-        <caption class="sr-only">Behaviour by file size</caption>
-        <thead><tr><th scope="col">File size</th><th scope="col">Behaviour</th></tr></thead>
-        <tbody>
-          <tr><td>Within the agency limit</td><td>Converted in the browser if the format differs</td></tr>
-          <tr><td>Above the limit, below the ceiling</td><td>Reduced after approval, with a time estimate for large files</td></tr>
-          <tr><td>Above the ceiling</td><td>Refused, with guidance on how to make it smaller</td></tr>
-        </tbody>
-      </table>
+      <label class="d-check"><input type="checkbox" id="annotate" checked> Show demo notes in the citizen view</label>
+      <label class="d-check"><input type="checkbox" id="reduce-motion"> Reduce motion</label>
+      <button type="button" class="d-btn" id="reset">Reset upload</button>
     </div>
-    <div class="table-wrap">
-      <table>
-        <caption class="sr-only">Behaviour by type of change</caption>
-        <thead><tr><th scope="col">Type of change</th><th scope="col">User interaction</th></tr></thead>
-        <tbody>
-          <tr><td>Format only (HEIC to PDF)</td><td>Shown on the file; no approval</td></tr>
-          <tr><td>Content changing (remove pages, compress, lower video quality)</td><td>Preview and explicit approval; the user can keep the original</td></tr>
-          <tr><td>Agent check (wrong document)</td><td>Advice only; never blocks or changes the file</td></tr>
-        </tbody>
-      </table>
+  </aside>
+
+  <main class="stage" id="main">
+    <div class="stage-label">What the citizen sees</div>
+    <div class="frame" id="frame">
+      <div class="frame-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">example-agency.gov.sg/apply/documents</span></div>
+      <div class="masthead"><span class="proto">PROTOTYPE</span> Example service. Not a real government transaction.</div>
+      <div class="agency-bar"><span class="agency-logo" aria-hidden="true">EA</span><span class="agency-name">Example Agency<small id="svc-name"></small></span></div>
+      <div class="c-page" id="c-page"></div>
     </div>
-  </div>
-  <p class="foot-note">Prototype for the CDXO file-upload proposal. Thresholds and sizes are illustrative; final values come from Workstream 1 research and device benchmarks.</p>
-</main>
+
+    <div class="stage-label">Behind the scenes · not shown to citizens</div>
+    <div class="bts">
+      <section class="bts-card" aria-labelledby="h-recv">
+        <h3 id="h-recv">What the agency receives</h3>
+        <p>Sent straight from the browser to the agency’s storage on Continue.</p>
+        <ul class="recv" id="received"></ul>
+      </section>
+      <section class="bts-card" aria-labelledby="h-log">
+        <h3 id="h-log">Agent calls</h3>
+        <p>Widget ID → middleware → AgentBase. Optional: the upload works without it.</p>
+        <ul class="log" id="log"></ul>
+      </section>
+      <section class="bts-card" aria-labelledby="h-rep">
+        <h3 id="h-rep">Configuration report</h3>
+        <p>Sent once on load for DSS compliance monitoring. No user data or files.</p>
+        <pre class="report" id="report" tabindex="0" aria-label="Configuration report"></pre>
+      </section>
+    </div>
+  </main>
+</div>
+<p id="live" class="sr-only" role="status" aria-live="polite"></p>
 
 <script>
 (function(){
   const SERVICES={
-    statements:{label:"Upload your bank statements for the last 3 months",category:"Multi-page supporting documents",accepts:["pdf","jpg","png","heic","webp","docx"],output:"PDF",limitMB:5,ceilingMB:100,classification:"Restricted / Sensitive Normal",agentAllowed:true,expected:"bank statement",keepOriginal:true,
+    statements:{service:"Financial Assistance",title:"Upload your supporting documents",lede:"We need your bank statements to assess your application.",step:2,steps:4,
+      label:"Bank statements for the last 3 months",category:"Multi-page supporting documents",accepts:["pdf","jpg","png","heic","webp","docx"],output:"PDF",limitMB:5,ceilingMB:100,classification:"Restricted / Sensitive Normal",agentAllowed:true,expected:"bank statement",keepOriginal:true,widget:"wid_fa_7Q2k",
       samples:["heic","blank","payslips","wrong","unsupported","ceiling"]},
-    damage:{label:"Add photos or a video of the damage",category:"Photo evidence",accepts:["heic","jpg","png","webp","mov","mp4"],output:"JPEG or MP4",limitMB:10,videoLimitMB:50,ceilingMB:500,classification:"Restricted / Sensitive Normal",agentAllowed:true,expected:"photo of the damage",keepOriginal:false,
+    damage:{service:"Facility Feedback",title:"Show us what happened",lede:"Photos or a short video help us send the right team.",step:2,steps:3,
+      label:"Photos or a video of the damage",category:"Photo evidence",accepts:["heic","jpg","png","webp","mov","mp4"],output:"JPEG or MP4",limitMB:10,videoLimitMB:50,ceilingMB:500,classification:"Restricted / Sensitive Normal",agentAllowed:true,expected:"photo of the damage",keepOriginal:false,widget:"wid_ff_3Lm9",
       samples:["heic","blurry","video","dashcam"]},
-    medical:{label:"Upload your medical report",category:"Multi-page supporting documents",accepts:["pdf","jpg","png","heic","webp","docx"],output:"PDF",limitMB:5,ceilingMB:100,classification:"Confidential / Sensitive High",agentAllowed:false,expected:"medical report",keepOriginal:true,
+    medical:{service:"Medical Claims",title:"Upload your medical report",lede:"Your doctor’s report helps us process your claim.",step:3,steps:4,
+      label:"Medical report from your doctor",category:"Multi-page supporting documents",accepts:["pdf","jpg","png","heic","webp","docx"],output:"PDF",limitMB:5,ceilingMB:100,classification:"Confidential / Sensitive High",agentAllowed:false,expected:"medical report",keepOriginal:true,widget:"wid_mc_9Xa1",
       samples:["heic","blank","unsupported"]}
   };
   const SAMPLES={
-    heic:{label:"iPhone photo (HEIC)",meta:{name:"IMG_4821.HEIC",ext:"heic",sizeMB:3.2}},
-    blank:{label:"Scanned PDF with blank pages",meta:{name:"Bank statement Aug–Oct.pdf",ext:"pdf",sizeMB:14.2,pages:9,blank:[4,7]}},
-    payslips:{label:"Large colour PDF",meta:{name:"Payslips 2026.pdf",ext:"pdf",sizeMB:8.3,pages:6}},
-    wrong:{label:"Wrong document",meta:{name:"SP Group bill Oct.pdf",ext:"pdf",sizeMB:1.1,pages:2,mismatch:"utility bill"}},
-    unsupported:{label:"Pages file",meta:{name:"Statement.pages",ext:"pages",sizeMB:2.4}},
-    ceiling:{label:"File over the ceiling",meta:{name:"Full account archive.pdf",ext:"pdf",sizeMB:1240,pages:412}},
-    blurry:{label:"Blurry photo",meta:{name:"IMG_4830.HEIC",ext:"heic",sizeMB:2.9,blurry:true}},
-    video:{label:"Large video (MOV)",meta:{name:"Water leak.MOV",ext:"mov",sizeMB:180}},
-    dashcam:{label:"Video over the ceiling",meta:{name:"Dashcam full day.mp4",ext:"mp4",sizeMB:2100}}
+    heic:{label:"iPhone photo",desc:"HEIC converted to the stored format. Format-only, no approval.",meta:{name:"IMG_4821.HEIC",ext:"heic",sizeMB:3.2}},
+    blank:{label:"Scanned PDF with blank pages",desc:"Over the limit. Removing pages needs approval.",meta:{name:"Bank statement Aug–Oct.pdf",ext:"pdf",sizeMB:14.2,pages:9,blank:[4,7]}},
+    payslips:{label:"Large colour PDF",desc:"Over the limit. Compression needs approval.",meta:{name:"Payslips 2026.pdf",ext:"pdf",sizeMB:8.3,pages:6}},
+    wrong:{label:"Wrong document",desc:"Agent advises it looks like a utility bill.",meta:{name:"SP Group bill Oct.pdf",ext:"pdf",sizeMB:1.1,pages:2,mismatch:"utility bill"}},
+    unsupported:{label:"Apple Pages file",desc:"Browser can’t convert. Agent can, if available.",meta:{name:"Statement.pages",ext:"pages",sizeMB:2.4}},
+    ceiling:{label:"File over the ceiling",desc:"1.2 GB PDF is refused with guidance.",meta:{name:"Full account archive.pdf",ext:"pdf",sizeMB:1240,pages:412}},
+    blurry:{label:"Blurry photo",desc:"Deterministic quality check warns the citizen.",meta:{name:"IMG_4830.HEIC",ext:"heic",sizeMB:2.9,blurry:true}},
+    video:{label:"Large video",desc:"Above normal range. Time estimate, then approval.",meta:{name:"Water leak.MOV",ext:"mov",sizeMB:180}},
+    dashcam:{label:"Video over the ceiling",desc:"2.1 GB video is refused with guidance.",meta:{name:"Dashcam full day.mp4",ext:"mp4",sizeMB:2100}}
   };
   const LABEL={pdf:"PDF",jpg:"JPG",png:"PNG",heic:"HEIC",webp:"WEBP",docx:"DOCX",mov:"MOV",mp4:"MP4",pages:"PAGES"};
   const $=id=>document.getElementById(id);
-  let state={service:"statements",agent:true,items:[],seq:0,submitted:false};
-  const svc=()=>SERVICES[state.service];
-  const agentOn=()=>state.agent&&svc().agentAllowed;
+  const st={service:"statements",agent:true,outage:false,items:[],seq:0,submitted:false,log:[]};
+  const svc=()=>SERVICES[st.service];
+  const agentConfigured=()=>st.agent&&svc().agentAllowed;
   const isVideo=e=>e==="mov"||e==="mp4";
   const isImage=e=>["jpg","png","heic","webp"].includes(e);
   const fmt=mb=>mb>=1000?(mb/1000).toFixed(1)+" GB":(mb<10?mb.toFixed(1):Math.round(mb))+" MB";
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const announce=t=>{$("live").textContent="";setTimeout(()=>$("live").textContent=t,30)};
   const wait=ms=>new Promise(r=>setTimeout(r,document.body.classList.contains("reduce-motion")?Math.min(ms,250):ms));
+  const outFormat=e=>svc().output==="PDF"?"pdf":(isVideo(e)?"mp4":"jpg");
+  const outName=(n,e)=>n.replace(/\.[^.]+$/,"")+"."+outFormat(e);
+  const limitFor=e=>isVideo(e)&&svc().videoLimitMB?svc().videoLimitMB:svc().limitMB;
+  function log(text,cls){const d=new Date();st.log.unshift({t:d.toTimeString().slice(0,8),text,cls:cls||"info"});st.log=st.log.slice(0,30);renderBts()}
 
-  function outFormat(ext){const s=svc();if(s.output==="PDF")return "pdf";if(isVideo(ext))return "mp4";return "jpg"}
-  function outName(name,ext){const o=outFormat(ext);return name.replace(/\.[^.]+$/,"")+"."+o}
-  function limitFor(ext){const s=svc();return isVideo(ext)&&s.videoLimitMB?s.videoLimitMB:s.limitMB}
-
-  const ICONS={
-    file:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>',
+  const I={
+    upload:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>',
     check:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>',
-    warn:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 2.8 19.5h18.4z"/><path d="M12 10v4M12 17h.01"/></svg>',
-    error:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>',
+    warn:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 2.8 19.5h18.4z"/><path d="M12 10v4M12 17h.01"/></svg>',
+    error:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>',
+    file:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>',
     x:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
     spark:'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9z"/></svg>'
   };
 
-  /* ---------- Processing logic ---------- */
+  /* Agent call via widget ID → middleware → AgentBase. Resolves null on timeout. */
+  async function callAgent(task){
+    const s=svc();
+    log(`POST /session widget=${s.widget} origin=example-agency.gov.sg`,"info");
+    await wait(400);
+    if(st.outage){await wait(1200);log("middleware timeout after 3 s → component continues without agent","err");return null}
+    log("token issued (5 min, scope: 1 upload)","ok");
+    await wait(500);
+    log(`AgentBase ${task} …`,"info");
+    await wait(900);
+    return true;
+  }
+
   async function processItem(it){
     const s=svc(),m=it.meta,e=m.ext;
     it.status="processing";it.phase="Checking file";render();
     await wait(500);
     if(m.sizeMB>s.ceilingMB){
-      return fail(it,`This file is ${fmt(m.sizeMB)}. The most this service accepts is ${fmt(s.ceilingMB)} per file.`,
-        isVideo(e)?"Trim the video to the part that shows the issue, or record it again at a lower quality.":"Upload only the pages asked for, or split the document into smaller files.");
+      it.demo="Above the ceiling: refused with guidance. No processing attempted.";
+      return fail(it,`This file is ${fmt(m.sizeMB)}. The most you can upload here is ${fmt(s.ceilingMB)} per file.`,
+        isVideo(e)?"Trim the video to the part that shows the issue, or record it again at a lower quality.":"Upload only the pages we ask for, or split the document into smaller files.");
     }
     if(!s.accepts.includes(e)){
-      if(agentOn()){
-        it.status="processing";it.phase="Agent is converting this file";it.agentUsed=true;render();await wait(1800);
-        return done(it,{format:true,note:`Converted from ${LABEL[e]||e.toUpperCase()} to PDF by the agent.`,sizeMB:m.sizeMB*0.7});
+      if(agentConfigured()){
+        it.phase="Converting your file";render();
+        const ok=await callAgent(`convert ${LABEL[e]||e.toUpperCase()} → PDF`);
+        if(ok){log(`converted ${m.name} → PDF`,"ok");it.demo="Browser can’t convert this format. The agent converted it; the change is shown to the citizen.";
+          return done(it,{format:true,note:`Converted from ${LABEL[e]||e.toUpperCase()} to PDF.`,sizeMB:m.sizeMB*0.7})}
+        it.demo="Agent unavailable (timeout). The component fell back to standard guidance; the citizen can still continue.";
+      } else {
+        it.demo=s.agentAllowed?"Agent off for this widget: standard guidance only.":"Agent not cleared for this data classification: standard guidance only.";
       }
-      const why=state.agent&&!s.agentAllowed?" The agent is not available for this service because of its data classification.":"";
-      return fail(it,`We can’t convert .${esc(e)} files.`,`Export it as a PDF from the app you made it in, then upload it again.${why}`);
+      return fail(it,`We can’t convert .${e} files.`,"Export it as a PDF from the app you made it in, then upload it again.");
     }
     if(isImage(e)){
       const of=outFormat(e);
       if(e!==of){it.phase=`Converting ${LABEL[e]} to ${of.toUpperCase()}`;render();await wait(1200)}
       const sz=e===of?m.sizeMB:m.sizeMB*(of==="pdf"?0.42:0.75);
       if(m.blurry){
-        it.status="warning";it.pending={sizeMB:sz,format:e!==of};it.warn={title:"This photo looks blurry",text:"Text or details in it may be hard to read. You can take another photo or keep this one."};render();
+        it.status="warning";it.pending={sizeMB:sz,format:e!==of};it.demo="Deterministic quality check in the browser. Advice only; the citizen decides.";render();
         announce(`${m.name}: this photo looks blurry.`);return;
       }
-      return done(it,{format:e!==of,note:e!==of?`Converted from ${LABEL[e]} to ${of.toUpperCase()}.`:"No changes needed.",sizeMB:sz});
+      it.demo=e!==of?"Format-only change: shown on the file, no approval needed.":null;
+      return done(it,{format:e!==of,note:e!==of?`Converted from ${LABEL[e]} to ${of.toUpperCase()}.`:"Ready.",sizeMB:sz});
     }
-    if(e==="docx"){it.phase="Converting DOCX to PDF";render();await wait(1200);return done(it,{format:true,note:"Converted from DOCX to PDF.",sizeMB:m.sizeMB*0.8})}
+    if(e==="docx"){it.phase="Converting DOCX to PDF";render();await wait(1200);it.demo="Format-only change: shown on the file, no approval needed.";return done(it,{format:true,note:"Converted from DOCX to PDF.",sizeMB:m.sizeMB*0.8})}
     if(isVideo(e)){
       const lim=limitFor(e);
-      if(m.sizeMB>lim){
-        it.status="review";it.review={kind:"video",after:lim*0.84,secs:Math.round(m.sizeMB/5)};render();
-        announce(`${m.name} needs your approval to reduce video quality.`);return;
-      }
-      return done(it,{format:e!=="mp4",note:e!=="mp4"?"Converted from MOV to MP4.":"No changes needed.",sizeMB:m.sizeMB});
+      if(m.sizeMB>lim){it.status="review";it.review={kind:"video",after:lim*0.84,secs:Math.round(m.sizeMB/5)};it.demo="Above the normal range: on-device time estimate shown. Lowering quality changes content, so it needs approval.";render();announce(`${m.name} needs your approval to reduce video quality.`);return}
+      return done(it,{format:e!=="mp4",note:e!=="mp4"?"Converted from MOV to MP4.":"Ready.",sizeMB:m.sizeMB});
     }
     if(e==="pdf"){
       it.phase=`Checking ${m.pages||1} pages`;render();await wait(900);
-      if(m.blank&&m.blank.length){
-        it.status="review";it.review={kind:"blank",after:s.limitMB*0.92};render();
-        announce(`${m.name}: blank pages found. Review the suggested change.`);return;
-      }
-      if(m.sizeMB>s.limitMB){
-        it.status="review";it.review={kind:"compress",after:s.limitMB*0.78};render();
-        announce(`${m.name} is above the ${s.limitMB} MB limit. Review the suggested change.`);return;
-      }
-      return done(it,{format:false,note:"No changes needed.",sizeMB:m.sizeMB});
+      if(m.blank&&m.blank.length){it.status="review";it.review={kind:"blank",after:s.limitMB*0.92};it.demo="Blank pages found by a deterministic check. Removing pages changes content, so it needs approval.";render();announce(`${m.name}: blank pages found.`);return}
+      if(m.sizeMB>s.limitMB){it.status="review";it.review={kind:"compress",after:s.limitMB*0.78};it.demo="Lossy compression changes content, so it needs approval. Compression stops at a minimum legibility threshold.";render();announce(`${m.name} is above the limit.`);return}
+      return done(it,{format:false,note:"Ready.",sizeMB:m.sizeMB});
     }
-    return done(it,{format:false,note:"No changes needed.",sizeMB:m.sizeMB});
+    return done(it,{format:false,note:"Ready.",sizeMB:m.sizeMB});
   }
 
   async function done(it,{format,content,note,sizeMB}){
+    const s=svc();
     it.status="ready";it.out={name:outName(it.meta.name,it.meta.ext),sizeMB,format:outFormat(it.meta.ext).toUpperCase()};
-    it.change=content?"content":(format?"format":"none");it.note=note;it.review=null;it.warn=null;it.error=null;
-    render();announce(`${it.meta.name} is ready. ${note}`);
-    if(agentOn()&&it.meta.mismatch&&!it.agentChecked){
-      it.agentChecking=true;render();await wait(1300);
-      it.agentChecking=false;it.agentChecked=true;
-      it.agentNote=`This looks like a ${it.meta.mismatch}, not a ${svc().expected}. You can still submit it if it’s the right file.`;
-      render();announce(`Agent check on ${it.meta.name}: ${it.agentNote}`);
+    it.change=content?"content":(format?"format":"none");it.note=note;it.review=null;it.error=null;
+    render();announce(`${it.meta.name} is ready.`);
+    if(it.meta.mismatch&&!it.checked){
+      it.checked=true;
+      if(!agentConfigured()){it.demo=s.agentAllowed?"Agent off: document-type check skipped. Upload unaffected.":"Agent not cleared for this classification: document-type check skipped.";render();return}
+      it.checking=true;render();
+      const ok=await callAgent("document check");
+      it.checking=false;
+      if(!ok){it.demo="Agent unavailable: document-type check skipped. The citizen is not blocked.";render();return}
+      log(`document check → looks like ${it.meta.mismatch} (advice shown)`,"warn");
+      it.assist=`This looks like a ${it.meta.mismatch}, not a ${s.expected}. You can still continue if it’s the right file.`;
+      it.demo="Agent advice only. It never blocks Continue or changes the file.";render();
+      announce(`Check on ${it.meta.name}: ${it.assist}`);
     }
   }
-  function fail(it,msg,help){it.status="error";it.error={msg,help};render();announce(`${it.meta.name}: ${msg} ${help}`)}
+  function fail(it,msg,help,retry){it.status="error";it.error={msg,help,retry};render();announce(`${it.meta.name}: ${msg}`)}
 
-  async function act(it,action){
+  async function act(it,a){
     const m=it.meta,s=svc();
-    if(action==="remove"){state.items=state.items.filter(x=>x!==it);render();announce(`${m.name} removed.`);return}
-    if(action==="replace"){state.items=state.items.filter(x=>x!==it);render();$("file-input").click();return}
-    if(action==="keep-photo"){const p=it.pending;return done(it,{format:p.format,note:p.format?`Converted from ${LABEL[m.ext]} to ${outFormat(m.ext).toUpperCase()}. Kept despite blur warning.`:"Kept despite blur warning.",sizeMB:p.sizeMB})}
-    if(action==="dismiss-agent"){it.agentNote=null;it.agentDismissed=true;render();return}
-    if(action==="approve-blank"){
-      it.status="processing";it.phase=`Removing pages ${m.blank.join(" and ")} and compressing images`;it.review=null;render();await wait(1500);
-      return done(it,{content:true,note:`Removed blank pages ${m.blank.join(" and ")}. Compressed images to 150 dpi.${s.keepOriginal?" The original is also sent to the agency.":""}`,sizeMB:it.reviewAfter||s.limitMB*0.92});
-    }
-    if(action==="keep-pages"){
-      it.status="processing";it.phase="Compressing at the lowest readable quality";it.review=null;render();await wait(1300);
-      const best=s.limitMB*1.22;
-      it.status="error";it.error={msg:`Even at the lowest readable quality, this file is ${fmt(best)}, above the ${s.limitMB} MB limit.`,help:"Remove the blank pages, or split the statement into two files.",retry:"approve-blank",retryLabel:"Remove blank pages instead"};
-      render();announce(it.error.msg);return;
-    }
-    if(action==="approve-compress"){
-      it.status="processing";it.phase="Compressing images to 150 dpi";it.review=null;render();await wait(1400);
-      return done(it,{content:true,note:`Compressed images to 150 dpi. Text stays readable.${s.keepOriginal?" The original is also sent to the agency.":""}`,sizeMB:s.limitMB*0.78});
-    }
-    if(action==="reject-compress"){
-      it.status="error";it.review=null;it.error={msg:`This file is ${fmt(m.sizeMB)}, above the ${s.limitMB} MB limit.`,help:"Choose a smaller file, or allow compression.",retry:"approve-compress",retryLabel:"Allow compression"};render();return;
-    }
-    if(action==="approve-video"){
-      const total=it.review.secs;it.review=null;it.status="processing";
-      for(let left=total;left>0;left-=Math.max(1,Math.round(total/7))){it.phase=`Reducing to 720p · about ${left} seconds left on this device`;render();await wait(450)}
-      return done(it,{content:true,note:"Reduced to 720p to meet the limit.",sizeMB:limitFor(m.ext)*0.84});
-    }
-    if(action==="reject-video"){
-      it.status="error";it.review=null;it.error={msg:`This video is ${fmt(m.sizeMB)}, above the ${limitFor(m.ext)} MB limit.`,help:"Trim the video, or allow the quality to be reduced.",retry:"approve-video-again",retryLabel:"Allow lower quality"};render();return;
-    }
-    if(action==="approve-video-again"){it.status="review";it.review={kind:"video",after:limitFor(m.ext)*0.84,secs:Math.round(m.sizeMB/5)};it.error=null;render();return}
+    if(a==="continue"){st.submitted=true;render();announce("Documents uploaded.");log("form submitted to agency storage (not via agent)","ok");return}
+    if(a==="back-edit"){st.submitted=false;render();return}
+    if(a==="remove"){st.items=st.items.filter(x=>x!==it);render();announce(`${m.name} removed.`);return}
+    if(a==="replace"){st.items=st.items.filter(x=>x!==it);render();const fi=$("file-input");if(fi)fi.click();return}
+    if(a==="keep-photo"){const p=it.pending;it.demo="Citizen kept the photo after the warning.";return done(it,{format:p.format,note:p.format?`Converted from ${LABEL[m.ext]} to ${outFormat(m.ext).toUpperCase()}.`:"Ready.",sizeMB:p.sizeMB})}
+    if(a==="dismiss-assist"){it.assist=null;it.demo="Citizen confirmed it’s the right file.";render();return}
+    if(a==="approve-blank"){it.status="processing";it.phase=`Removing pages ${m.blank.join(" and ")} and compressing images`;it.review=null;it.error=null;render();await wait(1500);
+      it.demo=s.keepOriginal?"Approved content change. The agency also receives the original for integrity.":"Approved content change.";
+      return done(it,{content:true,note:`Removed blank pages ${m.blank.join(" and ")} and compressed images.`,sizeMB:s.limitMB*0.92})}
+    if(a==="keep-pages"){it.status="processing";it.phase="Compressing at the lowest readable quality";it.review=null;render();await wait(1300);
+      it.demo="Legibility floor reached: the component won’t compress further, so it offers alternatives.";
+      return fail(it,`Even at the lowest readable quality, this file is ${fmt(s.limitMB*1.22)}, above the ${s.limitMB} MB limit.`,"Remove the blank pages, or split the statement into two files.",{act:"approve-blank",label:"Remove blank pages instead"})}
+    if(a==="approve-compress"){it.status="processing";it.phase="Compressing images";it.review=null;it.error=null;render();await wait(1400);
+      it.demo=s.keepOriginal?"Approved content change. The agency also receives the original.":"Approved content change.";
+      return done(it,{content:true,note:"Compressed images. Text stays readable.",sizeMB:s.limitMB*0.78})}
+    if(a==="reject-compress"){it.review=null;it.demo="Citizen declined compression. Clear next steps instead of a dead end.";return fail(it,`This file is ${fmt(m.sizeMB)}, above the ${s.limitMB} MB limit.`,"Choose a smaller file, or allow compression.",{act:"approve-compress",label:"Allow compression"})}
+    if(a==="approve-video"){const total=it.review.secs;it.review=null;it.error=null;it.status="processing";
+      for(let left=total;left>0;left-=Math.max(1,Math.round(total/7))){it.phase=`Reducing to 720p · about ${left} seconds left`;render();await wait(450)}
+      it.demo="Processed on the device. Nothing left the browser.";
+      return done(it,{content:true,note:"Reduced to 720p.",sizeMB:limitFor(m.ext)*0.84})}
+    if(a==="reject-video"){it.review=null;return fail(it,`This video is ${fmt(m.sizeMB)}, above the ${limitFor(m.ext)} MB limit.`,"Trim the video, or allow lower quality.",{act:"video-again",label:"Allow lower quality"})}
+    if(a==="video-again"){it.error=null;it.status="review";it.review={kind:"video",after:limitFor(m.ext)*0.84,secs:Math.round(m.sizeMB/5)};render();return}
   }
 
   function addFiles(metas){
-    state.submitted=false;
-    metas.forEach(meta=>{const it={id:++state.seq,meta,status:"processing",phase:"Uploading"};state.items.push(it);processItem(it)});
+    st.submitted=false;
+    metas.forEach(meta=>{const it={id:++st.seq,meta,status:"processing",phase:"Uploading"};st.items.push(it);processItem(it)});
     render();
   }
-  function metaFromFile(f){
-    let ext=(f.name.split(".").pop()||"").toLowerCase();if(ext==="jpeg")ext="jpg";if(ext==="heif")ext="heic";
-    const mb=f.size/1e6;
-    return {name:f.name,ext,sizeMB:Math.max(mb,0.01),pages:ext==="pdf"?Math.max(1,Math.round(mb/0.9)):undefined};
-  }
+  function metaFromFile(f){let e=(f.name.split(".").pop()||"").toLowerCase();if(e==="jpeg")e="jpg";if(e==="heif")e="heic";const mb=f.size/1e6;
+    return {name:f.name,ext:e,sizeMB:Math.max(mb,0.01),pages:e==="pdf"?Math.max(1,Math.round(mb/0.9)):undefined}}
 
-  /* ---------- Rendering ---------- */
-  function pillFormat(it){
-    const e=it.meta.ext,src=LABEL[e]||e.toUpperCase();
-    if(it.status==="ready"&&it.out&&it.out.format!==src)return `${src} <span class="arrow">→</span> ${it.out.format}`;
-    return src;
-  }
-  function pillIcon(it){
-    if(it.status==="processing")return '<span class="spinner" aria-hidden="true"></span>';
-    if(it.status==="ready")return ICONS.check;
-    if(it.status==="error")return ICONS.error;
-    if(it.status==="review"||it.status==="warning")return ICONS.warn;
-    return ICONS.file;
-  }
-  function pagesPreview(m){
-    let h='<ul class="pages" aria-label="Page preview">';
-    for(let p=1;p<=m.pages;p++){
-      const b=m.blank.includes(p);
-      h+=`<li class="page${b?" blank":""}" aria-label="Page ${p}${b?", blank":""}">${b?"":(p%3===1?'<div class="img"></div>':"")+"<i></i><i></i><i></i><i></i>"}<span>${b?"Blank":p}</span></li>`;
-    }
-    return h+"</ul>";
-  }
+  /* ---------- Citizen view ---------- */
+  function pillFormat(it){const src=LABEL[it.meta.ext]||it.meta.ext.toUpperCase();return it.status==="ready"&&it.out.format!==src?`${src} <span class="arrow">→</span> ${it.out.format}`:esc(src)}
+  function pillIcon(it){return it.status==="processing"?'<span class="spinner" aria-hidden="true"></span>':it.status==="ready"?I.check:it.status==="error"?I.error:(it.status==="review"||it.status==="warning")?I.warn:I.file}
+  function pages(m){let h='<ul class="pages" aria-label="Page preview">';for(let p=1;p<=m.pages;p++){const b=m.blank.includes(p);h+=`<li class="page${b?" blank":""}" aria-label="Page ${p}${b?", blank":""}">${b?"":(p%3===1?'<div class="img"></div>':"")+"<i></i><i></i><i></i>"}<span>${b?"Blank":p}</span></li>`}return h+"</ul>"}
+  const btn=(cls,act,id,label)=>`<button type="button" class="btn ${cls} btn-sm" data-act="${act}" data-id="${id}">${label}</button>`;
   function detail(it){
-    const m=it.meta,s=svc();
-    if(it.status==="processing")return `<div class="item-detail"><p class="status-line">${esc(it.phase||"Processing")}…</p></div>`;
-    if(it.status==="error"){
-      const r=it.error.retry?`<div class="actions"><button type="button" class="btn btn-outline btn-sm" data-act="${it.error.retry}" data-id="${it.id}">${it.error.retryLabel}</button><button type="button" class="btn btn-ghost btn-sm" data-act="replace" data-id="${it.id}">Choose another file</button></div>`:`<div class="actions"><button type="button" class="btn btn-ghost btn-sm" data-act="replace" data-id="${it.id}">Choose another file</button></div>`;
-      return `<div class="item-detail"><div class="notice error" role="alert"><p class="notice-title">${esc(it.error.msg)}</p><p>${esc(it.error.help)}</p>${r}</div></div>`;
-    }
-    if(it.status==="warning"){
-      return `<div class="item-detail"><div class="notice review"><p class="notice-title">${ICONS.warn} ${esc(it.warn.title)}</p><p>${esc(it.warn.text)}</p><div class="actions"><button type="button" class="btn btn-outline btn-sm" data-act="replace" data-id="${it.id}">Choose another photo</button><button type="button" class="btn btn-ghost btn-sm" data-act="keep-photo" data-id="${it.id}">Keep this photo</button></div></div></div>`;
-    }
-    if(it.status==="review"){
-      const rv=it.review;
-      if(rv.kind==="blank"){
-        it.reviewAfter=rv.after;
-        return `<div class="item-detail"><div class="notice review"><p class="notice-title">${ICONS.warn} We found ${m.blank.length} blank pages (pages ${m.blank.join(" and ")})</p>
-          <p>Removing them and compressing images brings this file under the ${s.limitMB} MB limit. Check that the pages are meant to be blank before you remove them.</p>
-          ${pagesPreview(m)}
-          <p class="size-compare"><span class="before">${fmt(m.sizeMB)}</span><span aria-hidden="true">→</span><span class="after">${fmt(rv.after)}</span><span class="limit">limit ${s.limitMB} MB</span></p>
-          <div class="actions"><button type="button" class="btn btn-primary btn-sm" data-act="approve-blank" data-id="${it.id}">Remove blank pages</button><button type="button" class="btn btn-outline btn-sm" data-act="keep-pages" data-id="${it.id}">Keep all pages</button></div></div></div>`;
-      }
-      if(rv.kind==="compress"){
-        return `<div class="item-detail"><div class="notice review"><p class="notice-title">${ICONS.warn} This file is above the ${s.limitMB} MB limit</p>
-          <p>Compressing its images to 150 dpi brings it under the limit. Text stays readable; photos in the document lose some detail.</p>
-          <p class="size-compare"><span class="before">${fmt(m.sizeMB)}</span><span aria-hidden="true">→</span><span class="after">${fmt(rv.after)}</span><span class="limit">limit ${s.limitMB} MB</span></p>
-          <div class="actions"><button type="button" class="btn btn-primary btn-sm" data-act="approve-compress" data-id="${it.id}">Compress file</button><button type="button" class="btn btn-outline btn-sm" data-act="reject-compress" data-id="${it.id}">Don’t compress</button></div></div></div>`;
-      }
-      if(rv.kind==="video"){
-        const lim=limitFor(m.ext);
-        return `<div class="item-detail"><div class="notice review"><p class="notice-title">${ICONS.warn} This video is above the ${lim} MB limit</p>
-          <p>Reducing it to 720p brings it under the limit. This takes about ${rv.secs} seconds on this device; keep this page open.</p>
-          <p class="size-compare"><span class="before">${fmt(m.sizeMB)}</span><span aria-hidden="true">→</span><span class="after">${fmt(rv.after)}</span><span class="limit">limit ${lim} MB</span></p>
-          <div class="actions"><button type="button" class="btn btn-primary btn-sm" data-act="approve-video" data-id="${it.id}">Reduce quality</button><button type="button" class="btn btn-outline btn-sm" data-act="reject-video" data-id="${it.id}">Keep original quality</button></div></div></div>`;
-      }
+    const m=it.meta,s=svc(),note=it.demo?`<p class="note">${esc(it.demo)}</p>`:"";
+    if(it.status==="processing")return `<div class="item-detail"><p class="status-line">${esc(it.phase)}…</p></div>`;
+    if(it.status==="error"){const r=it.error.retry?btn("btn-outline",it.error.retry.act,it.id,it.error.retry.label):"";
+      return `<div class="item-detail"><div class="notice error" role="alert"><p class="notice-title">${esc(it.error.msg)}</p><p>${esc(it.error.help)}</p><div class="actions">${r}${btn("btn-ghost","replace",it.id,"Choose another file")}</div></div>${note}</div>`}
+    if(it.status==="warning")return `<div class="item-detail"><div class="notice review"><p class="notice-title">${I.warn} This photo looks blurry</p><p>Details may be hard to read. You can take another photo or use this one.</p><div class="actions">${btn("btn-outline","replace",it.id,"Choose another photo")}${btn("btn-ghost","keep-photo",it.id,"Use this photo")}</div></div>${note}</div>`;
+    if(it.status==="review"){const rv=it.review;
+      if(rv.kind==="blank")return `<div class="item-detail"><div class="notice review"><p class="notice-title">${I.warn} We found ${m.blank.length} blank pages (pages ${m.blank.join(" and ")})</p><p>Removing them and compressing images brings this file under the ${s.limitMB} MB limit. Check the pages are meant to be blank.</p>${pages(m)}<p class="size-compare"><span class="before">${fmt(m.sizeMB)}</span><span aria-hidden="true">→</span><span class="after">${fmt(rv.after)}</span><span class="limit">limit ${s.limitMB} MB</span></p><div class="actions">${btn("btn-primary","approve-blank",it.id,"Remove blank pages")}${btn("btn-outline","keep-pages",it.id,"Keep all pages")}</div></div>${note}</div>`;
+      if(rv.kind==="compress")return `<div class="item-detail"><div class="notice review"><p class="notice-title">${I.warn} This file is above the ${s.limitMB} MB limit</p><p>We can compress the images in it. Text stays readable; photos lose some detail.</p><p class="size-compare"><span class="before">${fmt(m.sizeMB)}</span><span aria-hidden="true">→</span><span class="after">${fmt(rv.after)}</span><span class="limit">limit ${s.limitMB} MB</span></p><div class="actions">${btn("btn-primary","approve-compress",it.id,"Compress file")}${btn("btn-outline","reject-compress",it.id,"Don’t compress")}</div></div>${note}</div>`;
+      if(rv.kind==="video")return `<div class="item-detail"><div class="notice review"><p class="notice-title">${I.warn} This video is above the ${limitFor(m.ext)} MB limit</p><p>We can reduce it to 720p. This takes about ${rv.secs} seconds on this device; keep this page open.</p><p class="size-compare"><span class="before">${fmt(m.sizeMB)}</span><span aria-hidden="true">→</span><span class="after">${fmt(rv.after)}</span><span class="limit">limit ${limitFor(m.ext)} MB</span></p><div class="actions">${btn("btn-primary","approve-video",it.id,"Reduce quality")}${btn("btn-outline","reject-video",it.id,"Keep original quality")}</div></div>${note}</div>`;
     }
     if(it.status==="ready"){
-      const tag=it.change==="format"?'<span class="change-tag format">Format changed</span>':it.change==="content"?'<span class="change-tag content">Content changed with your approval</span>':'<span class="change-tag none">No changes</span>';
-      let h=`<div class="item-detail">${tag}<p class="status-line">${esc(it.note)} <span class="mono">${fmt(it.meta.sizeMB)} → ${fmt(it.out.sizeMB)}</span></p>`;
-      if(it.agentUsed)h+=`<span class="agent-label">${ICONS.spark} Converted by agent</span>`;
-      if(it.agentChecking)h+=`<p class="status-line"><span class="spinner" aria-hidden="true"></span> Agent is checking this is a ${esc(svc().expected)}…</p>`;
-      if(it.agentNote)h+=`<div class="notice agent"><span class="agent-label">${ICONS.spark} Agent check · advice only</span><p>${esc(it.agentNote)}</p><div class="actions"><button type="button" class="btn btn-outline btn-sm" data-act="replace" data-id="${it.id}">Replace file</button><button type="button" class="btn btn-ghost btn-sm" data-act="dismiss-agent" data-id="${it.id}">It’s the right file</button></div></div>`;
-      return h+"</div>";
+      const tag=it.change==="format"?'<span class="tag format">Format changed</span>':it.change==="content"?'<span class="tag content">Changed with your approval</span>':"";
+      let h=`<div class="item-detail">${tag}<p class="status-line">${esc(it.note)} <span class="mono">${fmt(it.meta.sizeMB)}${it.out.sizeMB!==it.meta.sizeMB?" → "+fmt(it.out.sizeMB):""}</span></p>`;
+      if(it.checking)h+=`<p class="status-line">Checking this is a ${esc(s.expected)}…</p>`;
+      if(it.assist)h+=`<div class="notice assist"><span class="assist-label">${I.spark} Suggestion</span><p>${esc(it.assist)}</p><div class="actions">${btn("btn-outline","replace",it.id,"Replace file")}${btn("btn-ghost","dismiss-assist",it.id,"It’s the right file")}</div></div>`;
+      return h+note+"</div>";
     }
     return "";
   }
 
-  function render(){
-    const s=svc();
-    $("field-label").textContent=s.label;
+  function renderCitizen(){
+    const s=svc(),c=$("c-page");
+    $("svc-name").textContent=s.service;
+    if(st.submitted){
+      const ready=st.items.filter(i=>i.status==="ready");
+      c.innerHTML=`<div class="stepper"><span>Step ${s.step+1} of ${s.steps}</span><div class="step-track" aria-hidden="true">${Array.from({length:s.steps},(_,i)=>`<i class="${i<=s.step?"on":""}"></i>`).join("")}</div></div>
+        <div class="confirm" role="status"><h2>Documents uploaded</h2><p>We received ${ready.length} file${ready.length>1?"s":""}:</p><ul>${ready.map(i=>`<li>${esc(i.out.name)} · ${fmt(i.out.sizeMB)}</li>`).join("")}</ul></div>
+        <div><button type="button" class="btn btn-outline" data-act="back-edit" data-id="0">Back to documents</button></div>`;
+      return;
+    }
+    const pending=st.items.filter(i=>i.status!=="ready");
     const exts=s.accepts.map(e=>LABEL[e]).join(", ");
-    $("field-hint").innerHTML=`Accepted: <b>${exts}</b>. We convert files to <b>${s.output}</b> for this service. Up to ${s.limitMB} MB per file${s.videoLimitMB?` (videos ${s.videoLimitMB} MB)`:""}; larger files up to ${fmt(s.ceilingMB)} can be reduced.`;
-    $("formats").innerHTML=s.accepts.map(e=>`<span class="fmt-chip">${LABEL[e]}</span>`).join("")+`<span class="fmt-chip out">→ ${s.output}</span>`;
-    $("file-input").removeAttribute("accept"); /* accept everything; the component explains what it can and can't convert */
-
-    $("samples").innerHTML='<span class="samples-label">Samples for this service</span>'+s.samples.map(k=>`<button type="button" class="btn btn-outline btn-sm" data-sample="${k}">${SAMPLES[k].label}</button>`).join("");
-
-    $("file-list").innerHTML=state.items.map(it=>`<li class="file-item">
-      <span class="attachment" data-state="${it.status}">
-        <span class="att-icon">${pillIcon(it)}</span>
-        <span class="att-name" title="${esc(it.meta.name)}">${esc(it.meta.name)}</span>
-        <span class="att-format"><span class="sr-only">Format </span>${pillFormat(it)}</span>
-        <button type="button" class="icon-btn" data-act="remove" data-id="${it.id}" aria-label="Remove ${esc(it.meta.name)}">${ICONS.x}</button>
-      </span>${detail(it)}</li>`).join("");
-
-    const agentSwitch=$("agent");
-    agentSwitch.setAttribute("aria-checked",String(state.agent));
-    agentSwitch.setAttribute("aria-disabled",String(!s.agentAllowed));
-    $("agent-state").textContent=!s.agentAllowed?"Unavailable":(state.agent?"On":"Off");
-    $("agent-hint").textContent=!s.agentAllowed?"Not available: this field is classified above the agent’s clearance.":"Optional. Handles unsupported formats and checks the document type.";
-
-    const pending=state.items.filter(i=>i.status!=="ready");
-    const ready=state.items.filter(i=>i.status==="ready");
-    $("submit").disabled=!state.items.length||pending.length>0;
-    $("footer-status").textContent=!state.items.length?"No files yet.":pending.length?`${pending.length} of ${state.items.length} file${state.items.length>1?"s":""} need${pending.length===1?"s":""} attention or ${pending.length===1?"is":"are"} still processing.`:`${ready.length} file${ready.length>1?"s":""} ready to submit.`;
-    $("submit-banner").hidden=!state.submitted;
-
-    $("svc-kv").innerHTML=`<dt>Upload category</dt><dd>${s.category}</dd><dt>Stored format</dt><dd>${s.output}</dd><dt>Agency limit</dt><dd>${s.limitMB} MB${s.videoLimitMB?` · video ${s.videoLimitMB} MB`:""}</dd><dt>Ceiling</dt><dd>${fmt(s.ceilingMB)}</dd><dt>Classification</dt><dd>${s.classification}</dd><dt>Agent</dt><dd><span class="badge ${agentOn()?"ok":(s.agentAllowed?"off":"warn")}">${agentOn()?"Enabled":(s.agentAllowed?"Off":"Not cleared")}</span></dd>`;
-    const recv=[];
-    ready.forEach(it=>{
-      recv.push(`<li><span class="r-name">${esc(it.out.name)}</span><span class="r-meta">${it.out.format} · ${fmt(it.out.sizeMB)}${it.change==="content"?" · changed with approval":it.change==="format"?" · converted":""}</span></li>`);
-      if(it.change==="content"&&s.keepOriginal)recv.push(`<li><span class="r-name">${esc(it.meta.name)}</span><span class="r-meta">Original · ${fmt(it.meta.sizeMB)} · kept for integrity</span></li>`);
-    });
-    $("received").innerHTML=recv.length?recv.join(""):'<li class="empty">Nothing yet. Converted files appear here once they are ready.</li>';
-
-    const rep={service:state.service==="statements"?"msf-financial-assistance":state.service==="damage"?"feedback-report":"medical-claim",component:"sgds-smart-drop-zone",version:"0.1.0-prototype",category:s.category,acceptedFormats:s.accepts,storedFormat:s.output,maxFileMB:s.limitMB,ceilingMB:s.ceilingMB,belowMinimumOverride:false,agentEnabled:agentOn()};
-    $("report").innerHTML=esc(JSON.stringify(rep,null,2)).replace(/&quot;([^&]+)&quot;:/g,'<span class="k">"$1"</span>:').replace(/: &quot;([^&]*)&quot;/g,': <span class="s">"$1"</span>').replace(/: (\d+|true|false)/g,': <span class="n">$1</span>');
+    c.innerHTML=`<div class="stepper"><span>Step ${s.step} of ${s.steps}</span><div class="step-track" aria-hidden="true">${Array.from({length:s.steps},(_,i)=>`<i class="${i<s.step?"on":""}"></i>`).join("")}</div></div>
+      <h1>${s.title}</h1><p class="lede">${s.lede}</p>
+      <div class="field">
+        <span class="field-label">${s.label}</span>
+        <p class="field-hint" id="field-hint">You can upload <b>${exts}</b>. Files up to ${s.limitMB} MB${s.videoLimitMB?` (videos ${s.videoLimitMB} MB)`:""}. If a file is too large, we’ll help you make it smaller.</p>
+        <p class="note">Formats and limits come from the agency’s configuration. Defaults meet the DSS minimums for “${s.category}”. Stored as ${s.output}.</p>
+        <div class="dropzone" id="dropzone">
+          <span class="dz-icon" aria-hidden="true">${I.upload}</span>
+          <p class="dz-title">Drag files here</p>
+          <p class="dz-sub">or</p>
+          <label class="btn btn-outline btn-sm" for="file-input">Choose files</label>
+          <input id="file-input" class="sr-only" type="file" multiple aria-describedby="field-hint">
+        </div>
+        <ul class="file-list" aria-label="Uploaded files">${st.items.map(it=>`<li class="file-item">
+          <span class="attachment" data-state="${it.status}"><span class="att-icon">${pillIcon(it)}</span><span class="att-name" title="${esc(it.meta.name)}">${esc(it.meta.name)}</span><span class="att-format"><span class="sr-only">Format </span>${pillFormat(it)}</span><button type="button" class="icon-btn" data-act="remove" data-id="${it.id}" aria-label="Remove ${esc(it.meta.name)}">${I.x}</button></span>
+          ${detail(it)}</li>`).join("")}</ul>
+      </div>
+      <div class="c-footer"><p>${!st.items.length?"Add at least one file to continue.":pending.length?`${pending.length} file${pending.length>1?"s need":" needs"} your attention.`:"All files are ready."}</p>
+        <div class="btns"><button type="button" class="btn btn-outline">Back</button><button type="button" class="btn btn-primary" data-act="continue" data-id="0" ${!st.items.length||pending.length?"disabled":""}>Continue</button></div></div>`;
+    bindUpload();
+  }
+  function bindUpload(){
+    const fi=$("file-input"),dz=$("dropzone");if(!fi)return;
+    fi.addEventListener("change",e=>{const fs=[...e.target.files];if(fs.length)addFiles(fs.map(metaFromFile))});
+    ["dragenter","dragover"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.add("is-over")}));
+    ["dragleave","drop"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove("is-over")}));
+    dz.addEventListener("drop",e=>{const fs=[...(e.dataTransfer?e.dataTransfer.files:[])];if(fs.length)addFiles(fs.map(metaFromFile))});
   }
 
-  /* ---------- Events ---------- */
+  /* ---------- Demo layer ---------- */
+  function renderControls(){
+    const s=svc();
+    $("svc-kv").innerHTML=`<dt>Category</dt><dd>${s.category}</dd><dt>Stored as</dt><dd>${s.output}</dd><dt>Limit</dt><dd>${s.limitMB} MB${s.videoLimitMB?` · video ${s.videoLimitMB} MB`:""}</dd><dt>Ceiling</dt><dd>${fmt(s.ceilingMB)}</dd><dt>Data class</dt><dd>${s.classification}</dd><dt>Widget ID</dt><dd>${s.agentAllowed?s.widget:"none"}</dd>`;
+    const a=$("agent");a.setAttribute("aria-checked",String(agentConfigured()));a.setAttribute("aria-disabled",String(!s.agentAllowed));
+    const o=$("outage");o.setAttribute("aria-checked",String(st.outage&&agentConfigured()));o.setAttribute("aria-disabled",String(!agentConfigured()));
+    $("agent-hint").textContent=!s.agentAllowed?"Not available: this field is classified above the agent’s clearance. The component works the same without it.":!st.agent?"Agent off. The component handles everything it can in the browser.":st.outage?"Middleware is down. Agent calls time out and the component carries on without them.":"Handles formats the browser can’t convert and checks the document type. Advice only.";
+    $("scenarios").innerHTML=s.samples.map(k=>`<li><button type="button" class="scn" data-sample="${k}"><strong>${SAMPLES[k].label}</strong><span>${SAMPLES[k].desc}</span></button></li>`).join("");
+  }
+  function renderBts(){
+    const s=svc(),ready=st.items.filter(i=>i.status==="ready"),r=[];
+    ready.forEach(it=>{r.push(`<li><span class="n">${esc(it.out.name)}</span><span class="m">${it.out.format} · ${fmt(it.out.sizeMB)}${it.change==="content"?" · changed with approval":it.change==="format"?" · converted":""}</span></li>`);
+      if(it.change==="content"&&s.keepOriginal)r.push(`<li><span class="n">${esc(it.meta.name)}</span><span class="m">Original · ${fmt(it.meta.sizeMB)} · kept for integrity</span></li>`)});
+    $("received").innerHTML=r.length?r.join(""):'<li class="empty">Nothing yet. Ready files appear here.</li>';
+    $("log").innerHTML=st.log.length?st.log.map(l=>`<li><span class="t">${l.t}</span><span class="${l.cls}">${esc(l.text)}</span></li>`).join(""):`<li class="empty">${agentConfigured()?"No agent calls yet. Most uploads never need one.":"Agent not in use for this service."}</li>`;
+    const rep={service:s.service,component:"sgds-smart-drop-zone",version:"0.1.0-prototype",widgetId:agentConfigured()?s.widget:null,category:s.category,acceptedFormats:s.accepts,storedFormat:s.output,maxFileMB:s.limitMB,ceilingMB:s.ceilingMB,belowMinimumOverride:false,agentEnabled:agentConfigured()};
+    $("report").innerHTML=esc(JSON.stringify(rep,null,2)).replace(/&quot;([^&]+)&quot;:/g,'<span class="k">"$1"</span>:').replace(/: &quot;([^&]*)&quot;/g,': <span class="s">"$1"</span>').replace(/: (\d+|true|false|null)/g,': <span class="n">$1</span>');
+  }
+  function render(){renderCitizen();renderControls();renderBts()}
+
   document.addEventListener("click",e=>{
-    const sb=e.target.closest("[data-sample]");
-    if(sb){addFiles([Object.assign({},SAMPLES[sb.dataset.sample].meta)]);return}
-    const ab=e.target.closest("[data-act]");
-    if(ab){const it=state.items.find(i=>i.id===+ab.dataset.id);if(it)act(it,ab.dataset.act)}
+    const sb=e.target.closest("[data-sample]");if(sb){addFiles([Object.assign({},SAMPLES[sb.dataset.sample].meta)]);return}
+    const ab=e.target.closest("[data-act]");if(ab){const it=st.items.find(i=>i.id===+ab.dataset.id);if(it||ab.dataset.id==="0")act(it||{meta:{}},ab.dataset.act);return}
+    const dv=e.target.closest("[data-device]");if(dv){document.querySelectorAll("[data-device]").forEach(b=>b.setAttribute("aria-pressed",String(b===dv)));$("frame").classList.toggle("mobile",dv.dataset.device==="mobile")}
   });
-  $("file-input").addEventListener("change",e=>{const fs=[...e.target.files];if(fs.length)addFiles(fs.map(metaFromFile));e.target.value=""});
-  const dz=$("dropzone");
-  ["dragenter","dragover"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.add("is-over")}));
-  ["dragleave","drop"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove("is-over")}));
-  dz.addEventListener("drop",e=>{const fs=[...(e.dataTransfer?e.dataTransfer.files:[])];if(fs.length)addFiles(fs.map(metaFromFile))});
-  $("service").addEventListener("change",e=>{state.service=e.target.value;state.items=[];state.submitted=false;render();announce("Service changed. Upload cleared.")});
-  $("agent").addEventListener("click",()=>{if(!svc().agentAllowed)return;state.agent=!state.agent;render();announce(`Agent layer ${state.agent?"on":"off"}.`)});
+  $("service").addEventListener("change",e=>{st.service=e.target.value;st.items=[];st.log=[];st.submitted=false;render();announce("Service changed. Upload cleared.")});
+  $("agent").addEventListener("click",()=>{if(!svc().agentAllowed)return;st.agent=!st.agent;if(!st.agent)st.outage=false;render()});
+  $("outage").addEventListener("click",()=>{if(!agentConfigured())return;st.outage=!st.outage;render()});
+  $("annotate").addEventListener("change",e=>document.body.classList.toggle("annotate",e.target.checked));
   $("reduce-motion").addEventListener("change",e=>document.body.classList.toggle("reduce-motion",e.target.checked));
-  $("upload-form").addEventListener("submit",e=>{
-    e.preventDefault();
-    const ready=state.items.filter(i=>i.status==="ready");
-    state.submitted=true;render();
-    $("submit-banner").textContent=`Prototype only. In a live service, ${ready.length} file${ready.length>1?"s":""} would go to the agency’s storage: ${ready.map(i=>i.out.name).join(", ")}.`;
-    announce($("submit-banner").textContent);
-  });
+  $("reset").addEventListener("click",()=>{st.items=[];st.log=[];st.submitted=false;render();announce("Upload reset.")});
 
   render();
   addFiles([Object.assign({},SAMPLES.heic.meta),Object.assign({},SAMPLES.blank.meta)]);
